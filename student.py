@@ -25,11 +25,22 @@ def search(id):
     conn.close()
 
 def display_search(row):
-    listbox = Listbox(frame, height=10, width=20)
+    listbox = Listbox(frame, height=2, width=20)
     listbox.grid(row=8, column=1)
     listbox.insert(END, row)
 
-
+def display_all():
+    conn = psycopg2.connect(dbname="postgres", user="postgres", password="786Beefzy", port="5432")    
+    curr = conn.cursor()
+    query = '''SELECT * FROM demo1'''
+    curr.execute(query)
+    row = curr.fetchall()
+    listbox = Listbox(frame, height=5, width=20)
+    listbox.grid(row=9, column=1)
+    for x in row:
+        listbox.insert(END, x)
+    
+    
 canvas = Canvas(root, height=480, width=480).pack()
 frame = Frame(root)
 frame.place(relx=0.3, rely=0.1, relheight=0.8, relwidth=0.8)
@@ -77,6 +88,7 @@ entry_search_id.grid(row=7, column=1)
 button_search_id = Button(frame, text="Seach", command= lambda: search(entry_search_id.get()))
 button_search_id.grid(row=7, column=2)
 
-
+button_search_all = Button(frame, text="Search all", command= lambda: display_all())
+button_search_all.grid(row=7, column=3)
 
 root.mainloop()
