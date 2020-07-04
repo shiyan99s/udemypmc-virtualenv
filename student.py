@@ -19,12 +19,16 @@ def search(id):
     curr = conn.cursor()
     query = '''SELECT * FROM demo1 WHERE id=%s;'''
     curr.execute(query,(id))
-    print("Searching")
     row = curr.fetchone()
-    print("Found\n{}".format(row))
+    display_search(row)
     conn.commit()
     conn.close()
-    
+
+def display_search(row):
+    listbox = Listbox(frame, height=10, width=20)
+    listbox.grid(row=8, column=1)
+    listbox.insert(END, row)
+
 
 canvas = Canvas(root, height=480, width=480).pack()
 frame = Frame(root)
